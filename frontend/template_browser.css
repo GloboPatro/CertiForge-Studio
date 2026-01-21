@@ -1,0 +1,206 @@
+/* ============================================================
+   GLOBAL
+============================================================ */
+
+:root {
+    --bg: #f5f5f5;
+    --panel-bg: #ffffff;
+    --accent: #007bff;
+    --accent-soft: rgba(0, 123, 255, 0.12);
+    --danger: #e55353;
+    --text: #222;
+    --muted: #777;
+    --border: #ccc;
+    --shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+}
+
+/* ============================================================
+   TOP BAR
+============================================================ */
+
+#topbar {
+    height: 60px;
+    background: var(--panel-bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 20px;
+    box-shadow: var(--shadow);
+    z-index: 10;
+}
+
+#logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#searchContainer {
+    flex: 1;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+}
+
+/* Buttons */
+.tb-btn {
+    padding: 8px 14px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.15s;
+}
+
+.tb-btn:hover {
+    background: #0069d9;
+}
+
+.tb-btn.primary {
+    background: #28a745;
+}
+
+.tb-btn.primary:hover {
+    background: #218838;
+}
+
+.tb-btn.danger {
+    background: var(--danger);
+}
+
+.tb-btn.danger:hover {
+    background: #cc3d3d;
+}
+
+/* ============================================================
+   MAIN LAYOUT
+============================================================ */
+
+#main {
+    display: flex;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+}
+
+/* ============================================================
+   TEMPLATE GRID
+============================================================ */
+
+#grid {
+    flex: 1;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    overflow-y: auto;
+}
+
+.templateCard {
+    background: var(--panel-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: 0.2s;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+
+.templateCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.templateThumb {
+    height: 140px;
+    background-size: cover;
+    background-position: center;
+}
+
+.templateInfo {
+    padding: 12px;
+}
+
+.templateName {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.templateMeta {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* ============================================================
+   DETAILS PANEL
+============================================================ */
+
+#detailsPanel {
+    width: 360px;
+    background: var(--panel-bg);
+    border-left: 1px solid var(--border);
+    box-shadow: -2px 0 6px rgba(0,0,0,0.1);
+    padding: 20px;
+    overflow-y: auto;
+    transition: transform 0.25s ease;
+}
+
+#detailsPanel.hidden {
+    transform: translateX(100%);
+}
+
+#detailsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#detailsHeader h2 {
+    margin: 0;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--muted);
+}
+
+#detailsPreview {
+    width: 100%;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: var(--shadow);
+}
+
+#detailsMeta p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+#detailsActions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

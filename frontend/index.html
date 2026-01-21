@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Certificate Studio</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        transition: background 0.3s, color 0.3s;
+    }
+
+    :root {
+        --bg: #f5f5f5;
+        --text: #222;
+        --card-bg: white;
+        --card-shadow: rgba(0,0,0,0.1);
+    }
+
+    .dark {
+        --bg: #1e1e1e;
+        --text: #e0e0e0;
+        --card-bg: #2a2a2a;
+        --card-shadow: rgba(0,0,0,0.5);
+    }
+
+    header {
+        padding: 20px;
+        background: var(--card-bg);
+        box-shadow: 0 2px 6px var(--card-shadow);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .toggleBtn {
+        padding: 8px 14px;
+        border: none;
+        background: #007bff;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .container {
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 30px;
+        width: 100%;
+        max-width: 900px;
+    }
+
+    .card {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px var(--card-shadow);
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card h2 {
+        margin-bottom: 10px;
+    }
+
+    .previewBox {
+        margin-top: 10px;
+        height: 140px;
+        background: #ccc;
+        border-radius: 8px;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .card:hover .previewBox {
+        opacity: 1;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Certificate Studio</div>
+    <button class="toggleBtn" onclick="toggleDark()">Toggle Dark Mode</button>
+</header>
+
+<div class="container">
+    <div class="grid">
+
+        <div class="card" onclick="go('template_browser.html')">
+            <h2>Browse Templates</h2>
+            <p>View all templates, metadata, and previews</p>
+            <div class="previewBox" id="preview1"></div>
+        </div>
+
+        <div class="card" onclick="go('layout_editor.html')">
+            <h2>Edit Layout</h2>
+            <p>Drag, resize, and configure text fields</p>
+            <div class="previewBox" id="preview2"></div>
+        </div>
+
+        <div class="card" onclick="go('generator.html')">
+            <h2>Generate Certificates</h2>
+            <p>Single or bulk generation with CSV</p>
+            <div class="previewBox" id="preview3"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function go(page) {
+    window.location.href = page;
+}
+
+function toggleDark() {
+    document.body.classList.toggle("dark");
+    localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+}
+
+if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark");
+}
+
+// Optional hover previews
+document.getElementById("preview1").style.backgroundImage =
+    "url('http://localhost:5000/templates_store/example/thumb.jpg')";
+
+document.getElementById("preview2").style.backgroundImage =
+    "url('http://localhost:5000/templates_store/example/thumb.jpg')";
+
+document.getElementById("preview3").style.backgroundImage =
+    "url('http://localhost:5000/templates_store/example/thumb.jpg')";
+
+// Keyboard shortcuts
+document.addEventListener("keydown", e => {
+    if (e.key === "1") go("template_browser.html");
+    if (e.key === "2") go("layout_editor.html");
+    if (e.key === "3") go("generator.html");
+});
+</script>
+
+</body>
+</html>

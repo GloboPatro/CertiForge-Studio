@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Certificate Layout Editor</title>
+    <link rel="stylesheet" href="layout_editor.css" />
+</head>
+<body>
+
+<header id="topbar">
+    <div id="toolbar-left">
+        <button class="tool-btn" id="btnLoadTemplate">Load Template</button>
+        <button class="tool-btn" id="btnAddField">Add Field</button>
+        <button class="tool-btn" id="btnDuplicateField">Duplicate</button>
+        <button class="tool-btn danger" id="btnDeleteField">Delete</button>
+        <button class="tool-btn" id="btnSnap">Snap</button>
+        <button class="tool-btn primary" id="btnGenerate">Generate</button>
+    </div>
+
+    <div id="toolbar-right">
+        <div class="toolbar-group">
+            <button class="tool-btn" id="btnZoomOut">−</button>
+            <button class="tool-btn" id="btnZoomReset">100%</button>
+            <button class="tool-btn" id="btnZoomIn">+</button>
+        </div>
+        <button class="tool-btn" id="themeToggle">🌙</button>
+    </div>
+</header>
+
+<main id="editor">
+    <div id="canvasWrapper" tabindex="0">
+        <div id="canvasInner">
+            <div id="canvas"></div>
+        </div>
+    </div>
+
+    <aside id="sidebar">
+        <h2>Field Properties</h2>
+
+        <div id="fieldList"></div>
+
+        <div id="fieldProps">
+            <label>Name</label>
+            <input id="propName" type="text" />
+
+            <label>X</label>
+            <input id="propX" type="number" />
+
+            <label>Y</label>
+            <input id="propY" type="number" />
+
+            <label>Width</label>
+            <input id="propW" type="number" />
+
+            <label>Height</label>
+            <input id="propH" type="number" />
+
+            <label>Font Size</label>
+            <input id="propSize" type="number" />
+
+            <label>Color</label>
+            <input id="propColor" type="color" />
+
+            <button id="btnApplyProps" class="primary">Apply</button>
+        </div>
+    </aside>
+</main>
+
+<div id="previewModal" class="modal hidden">
+    <div class="modal-content">
+        <img id="previewImage" alt="preview" />
+
+        <div style="margin-top: 16px; display: flex; gap: 10px; justify-content: center;">
+            <button id="btnDownload" class="tool-btn primary">Download PNG</button>
+            <button id="btnDownloadPDF" class="tool-btn primary">Download PDF</button>
+            <button id="btnSaveLayout" class="tool-btn">Save Layout</button>
+            <button class="closeModal tool-btn danger">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script src="layout_editor.js"></script>
+</body>
+</html>

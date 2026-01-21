@@ -1,0 +1,229 @@
+/* Minimal, robust editor CSS - keep canvas at top-left of scroll area */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: Inter, sans-serif;
+  background: #fff;
+  color: #111;
+}
+
+/* Theme variables */
+:root {
+  --bg: #ffffff;
+  --bg-secondary: #f5f5f7;
+  --accent: #007aff;
+  --border: #d0d0d0;
+  --danger: #ff3b30;
+  --shadow: rgba(0,0,0,0.08);
+}
+
+/* Dark mode */
+html[data-theme="dark"] {
+  --bg: #1e1e1e;
+  --bg-secondary: #2a2a2a;
+  --accent: #0a84ff;
+  --border: #3a3a3a;
+  --danger: #ff453a;
+  --shadow: rgba(0,0,0,0.4);
+  color: #f5f5f5;
+}
+
+/* Top bar */
+#topbar {
+  height: 48px;
+  width: 100%;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  gap: 12px;
+}
+
+#toolbar-left,
+#toolbar-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.toolbar-group {
+  display: flex;
+  gap: 4px;
+}
+
+.tool-btn {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.tool-btn.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.tool-btn.danger {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+/* Main layout */
+#editor {
+  height: calc(100% - 48px);
+  display: flex;
+  background: var(--bg);
+}
+
+/* Canvas wrapper */
+#canvasWrapper {
+  flex: 1;
+  overflow: auto;
+  background: var(--bg-secondary);
+  position: relative;
+  display: block;
+  outline: none;
+}
+
+/* Scaled container */
+#canvasInner {
+  position: relative;
+  transform-origin: top left;
+  will-change: transform;
+}
+
+/* Logical canvas */
+#canvas {
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* Snap grid overlay */
+#canvas.snap-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px);
+  background-size: 10px 10px;
+  pointer-events: none;
+}
+
+/* Field boxes */
+.fieldBox {
+  position: absolute;
+  border: 1px dashed var(--accent);
+  background: rgba(0,0,0,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  box-sizing: border-box;
+}
+
+.fieldBox:active {
+  cursor: grabbing;
+}
+
+/* Make text actually scale and center */
+.fieldLabel {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+
+/* Dark mode field box tweaks */
+html[data-theme="dark"] .fieldBox {
+  background: rgba(255,255,255,0.05);
+  border-color: var(--accent);
+}
+
+/* Let JS color control the label; just soften in dark mode */
+html[data-theme="dark"] .fieldLabel {
+  opacity: 0.9;
+}
+
+/* Resize handle */
+.resize-handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  right: -6px;
+  bottom: -6px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: se-resize;
+}
+
+/* Sidebar */
+#sidebar {
+  width: 300px;
+  border-left: 1px solid var(--border);
+  padding: 16px;
+  background: var(--bg-secondary);
+  overflow-y: auto;
+}
+
+#fieldList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+#fieldProps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fieldListItem {
+  padding: 6px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background: var(--bg);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.hidden {
+  display: none !important;
+}

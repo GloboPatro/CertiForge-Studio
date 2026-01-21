@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Template Browser – Certificate Studio</title>
+<link rel="stylesheet" href="template_browser.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+    <div id="logo">Certificate Studio</div>
+
+    <div id="searchContainer">
+        <input id="searchInput" type="text" placeholder="Search templates...">
+    </div>
+
+    <button class="tb-btn primary" onclick="openImporter()">Import Template</button>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div id="main">
+
+    <!-- TEMPLATE GRID -->
+    <div id="grid"></div>
+
+    <!-- DETAILS PANEL -->
+    <div id="detailsPanel" class="hidden">
+        <div id="detailsHeader">
+            <h2 id="detailsName">Template Name</h2>
+            <button class="closeBtn" onclick="closeDetails()">✕</button>
+        </div>
+
+        <img id="detailsPreview" alt="Preview">
+
+        <div id="detailsMeta">
+            <p><strong>ID:</strong> <span id="metaId"></span></p>
+            <p><strong>Size:</strong> <span id="metaSize"></span></p>
+            <p><strong>Fields:</strong> <span id="metaFields"></span></p>
+            <p><strong>Created:</strong> <span id="metaCreated"></span></p>
+        </div>
+
+        <div id="detailsActions">
+            <button class="tb-btn" onclick="openEditor()">Edit Layout</button>
+            <button class="tb-btn" onclick="openGenerator()">Generate</button>
+            <button class="tb-btn" onclick="duplicateTemplate()">Duplicate</button>
+            <button class="tb-btn danger" onclick="deleteTemplate()">Delete</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="template_browser.js"></script>
+</body>
+</html>

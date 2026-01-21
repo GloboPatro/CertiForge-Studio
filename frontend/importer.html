@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Import Template</title>
+    <link rel="stylesheet" href="importer.css">
+</head>
+<body>
+
+<div id="topbar">
+    <div id="logo">Certificate Generator</div>
+    <div id="title">Import Template</div>
+    <button class="tb-btn" onclick="goBack()">Back</button>
+</div>
+
+<div id="main">
+    <div id="importOptions">
+        <h2>Choose Import Method</h2>
+
+        <div id="importButtons">
+            <div class="importBox" onclick="selectZip()">
+                <div class="icon">📦</div>
+                <div class="label">Import ZIP</div>
+                <div class="desc">Upload a ZIP containing template files</div>
+            </div>
+
+            <div class="importBox" onclick="selectImage()">
+                <div class="icon">🖼️</div>
+                <div class="label">Import Image</div>
+                <div class="desc">Upload a single image to create a template</div>
+            </div>
+        </div>
+
+        <div id="zipSection" class="section hidden">
+            <h3>Import ZIP</h3>
+            <input type="file" id="zipFile" accept=".zip">
+            <button class="tb-btn primary" onclick="uploadZip()">Import ZIP</button>
+        </div>
+
+        <div id="imageSection" class="section hidden">
+            <h3>Import Image</h3>
+            <input type="file" id="imageFile" accept="image/*">
+            <button class="tb-btn primary" onclick="uploadImage()">Import Image</button>
+        </div>
+
+        <div id="status"></div>
+    </div>
+</div>
+
+<script src="importer.js"></script>
+</body>
+</html>

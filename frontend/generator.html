@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Certificate Generator – Certificate Studio</title>
+<link rel="stylesheet" href="generator.css">
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+    <div id="logo">Certificate Studio</div>
+
+    <div id="templateInfo">
+        <span id="templateName">Template</span>
+        <span id="templateSize"></span>
+    </div>
+
+    <button class="tb-btn" onclick="goBack()">Back</button>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div id="main">
+
+    <!-- LEFT PANEL -->
+    <div id="leftPanel">
+
+        <!-- TAB SWITCHER -->
+        <div id="tabs">
+            <div class="tab active" id="tabSingle" onclick="switchTab('single')">Single</div>
+            <div class="tab" id="tabBulk" onclick="switchTab('bulk')">Bulk</div>
+        </div>
+
+        <!-- SINGLE GENERATION FORM -->
+        <div id="singlePanel" class="panel active">
+            <h2>Single Certificate</h2>
+            <div id="singleFields"></div>
+
+            <button class="tb-btn primary" onclick="generateSingle()">Generate</button>
+        </div>
+
+        <!-- BULK GENERATION FORM -->
+        <div id="bulkPanel" class="panel">
+            <h2>Bulk Generation</h2>
+
+            <div id="csvUpload">
+                <label>Upload CSV</label>
+                <input type="file" id="csvFile" accept=".csv">
+            </div>
+
+            <div id="mappingSection">
+                <h3>Field Mapping</h3>
+                <div id="mappingFields"></div>
+            </div>
+
+            <button class="tb-btn primary" onclick="generateBulk()">Generate ZIP</button>
+
+            <div id="bulkProgress"></div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL (PREVIEW) -->
+    <div id="rightPanel">
+        <h2>Live Preview</h2>
+        <img id="previewImage" alt="Preview">
+    </div>
+
+</div>
+
+<script src="generator.js"></script>
+</body>
+</html>
