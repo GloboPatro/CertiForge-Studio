@@ -1828,3 +1828,15 @@ backend/generator/__pycache__/validator.cpython-312.pyc
 .venv/lib/python3.12/site-packages/werkzeug-3.1.5.dist-info/RECORD
 .venv/lib/python3.12/site-packages/werkzeug-3.1.5.dist-info/WHEEL
 .venv/lib/python3.12/site-packages/werkzeug-3.1.5.dist-info/licenses/LICENSE.txt
+backend/generator/__pycache__/font_loader.cpython-312.pyc
+backend/generator/__pycache__/generate.cpython-312.pyc
+backend/generator/__pycache__/importer_utils.cpython-312.pyc
+backend/generator/__pycache__/layout_loader.cpython-312.pyc
+backend/generator/__pycache__/metadata_loader.cpython-312.pyc
+backend/generator/__pycache__/path_utils.cpython-312.pyc
+backend/generator/__pycache__/remote_template.cpython-312.pyc
+backend/generator/__pycache__/render.cpython-312.pyc
+backend/generator/__pycache__/template_loader.cpython-312.pyc
+backend/generator/__pycache__/validator.cpython-312.pyc
+backend/generator/__pycache__/__init__.cpython-312.pyc
+backend/generator/__pycache__/__init__.cpython-312.pyc
