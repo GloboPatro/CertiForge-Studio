@@ -5,6 +5,10 @@ import json
 import webbrowser
 import threading
 import time
+import io
+import zipfile
+import tempfile
+import logging
 
 from generator.template_loader import load_templates
 from generator.layout_loader import load_layout
@@ -19,6 +23,9 @@ CORS(app)
 
 # Base directory of backend/
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+logger = logging.getLogger("certiforge")
+logging.basicConfig(level=logging.INFO)
 
 
 # ---------------------------------------------------------
@@ -89,7 +96,14 @@ def api_generate_single():
     if not template_id or not data:
         return jsonify({"error": "template_id and data are required"}), 400
 
-    result = generate_single(template_id, data)
+    try:
+        result = generate_single(template_id, data)
+    except FileNotFoundError as e:
+        logger.warning("Template not found: %s", e)
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        logger.exception("Error generating single certificate")
+        return jsonify({"error": "Server error during generation", "details": str(e)}), 500
 
     if isinstance(result, dict) and "errors" in result:
         return jsonify(result), 400
@@ -100,13 +114,17 @@ def api_generate_single():
     os.makedirs(output_dir, exist_ok=True)
 
     output_path = os.path.join(output_dir, "single_preview.png")
-    img.save(output_path)
+    try:
+        img.save(output_path)
+    except Exception as e:
+        logger.exception("Failed to save generated image")
+        return jsonify({"error": "Failed to save generated image", "details": str(e)}), 500
 
     return send_file(output_path, mimetype="image/png")
 
 
 # ---------------------------------------------------------
-# GENERATE BULK CERTIFICATES
+# GENERATE BULK CERTIFICATES (returns ZIP)
 # ---------------------------------------------------------
 @app.route("/generate/bulk", methods=["POST"])
 def api_generate_bulk():
@@ -118,9 +136,37 @@ def api_generate_bulk():
     if not template_id or not rows:
         return jsonify({"error": "template_id and rows are required"}), 400
 
-    results = generate_bulk(template_id, rows)
+    # Use a temporary directory per-request to avoid disk accumulation
+    try:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            results = generate_bulk(template_id, rows, output_dir=tmpdir)
+            # Build an in-memory ZIP with generated files + results.json
+            mem = io.BytesIO()
+            with zipfile.ZipFile(mem, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
+                # Add generated images (only files that exist)
+                for r in results:
+                    if "file" in r:
+                        fname = r["file"]
+                        # file paths returned by generate_bulk are basenames relative to output_dir
+                        fpath = os.path.join(tmpdir, fname)
+                        if os.path.exists(fpath):
+                            zf.write(fpath, arcname=fname)
+                # Add results.json so caller can inspect per-row errors
+                zf.writestr("results.json", json.dumps(results, indent=2))
 
-    return jsonify({"status": "ok", "results": results})
+            mem.seek(0)
+            return send_file(
+                mem,
+                mimetype="application/zip",
+                as_attachment=True,
+                download_name="certificates.zip"
+            )
+    except FileNotFoundError as e:
+        logger.warning("Template not found during bulk generation: %s", e)
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        logger.exception("Error during bulk generation")
+        return jsonify({"error": "Server error during bulk generation", "details": str(e)}), 500
 
 
 # ---------------------------------------------------------
@@ -160,6 +206,7 @@ def api_import_zip():
         template_id = import_from_zip(file, file.filename)
         return jsonify({"template_id": template_id})
     except Exception as e:
+        logger.exception("Error importing ZIP")
         return jsonify({"error": str(e)}), 500
 
 
@@ -179,6 +226,7 @@ def api_import_image():
         template_id = import_from_image(file, file.filename)
         return jsonify({"template_id": template_id})
     except Exception as e:
+        logger.exception("Error importing image")
         return jsonify({"error": str(e)}), 500
 
 
@@ -249,15 +297,3 @@ if __name__ == "__main__":
         threading.Thread(target=open_browser).start()
 
     app.run(debug=True)
-
-
-# ---------------------------------------------------------
-# template info endpoint
-# ---------------------------------------------------------
-@app.route("/templates/<template_id>/info", methods=["GET"])
-def api_template_info(template_id):
-    templates = load_templates()
-    for t in templates:
-        if t["id"] == template_id:
-            return jsonify(t)
-    return jsonify({"error": "Template not found"}), 404
