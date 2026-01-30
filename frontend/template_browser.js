@@ -31,8 +31,9 @@ window.onload = () => {
 ============================================================ */
 
 async function loadTemplates() {
-    const res = await fetch("/templates/list");
-    templates = await res.json();
+    const res = await fetch("/templates");
+    const data = await res.json();
+    templates = data.templates;
 
     renderGrid(templates);
 }
@@ -51,7 +52,7 @@ function renderGrid(list) {
 
         const thumb = document.createElement("div");
         thumb.className = "templateThumb";
-        thumb.style.backgroundImage = `url(/templates/${tpl.id}/thumb.jpg?ts=${Date.now()})`;
+        thumb.style.backgroundImage = `url(/templates/${tpl.id}/thumb?ts=${Date.now()})`;
 
         const info = document.createElement("div");
         info.className = "templateInfo";

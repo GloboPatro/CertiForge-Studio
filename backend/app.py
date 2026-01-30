@@ -250,3 +250,14 @@ if __name__ == "__main__":
 
     app.run(debug=True)
 
+
+# ---------------------------------------------------------
+# template info endpoint
+# ---------------------------------------------------------
+@app.route("/templates/<template_id>/info", methods=["GET"])
+def api_template_info(template_id):
+    templates = load_templates()
+    for t in templates:
+        if t["id"] == template_id:
+            return jsonify(t)
+    return jsonify({"error": "Template not found"}), 404
